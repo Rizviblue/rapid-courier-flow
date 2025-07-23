@@ -4,15 +4,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Eye, EyeOff, Mail, Lock, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, AlertCircle, HelpCircle } from 'lucide-react';
 import { useAuthStore, UserRole } from '@/store/authStore';
 import { toast } from '@/hooks/use-toast';
+import ForgotPassword from './ForgotPassword';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   
   const { login, demoLogin } = useAuthStore();
   const navigate = useNavigate();
@@ -127,13 +129,20 @@ export default function Login() {
               </Button>
             </form>
 
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between text-sm">
+              <button
+                type="button"
+                onClick={() => setIsForgotPasswordOpen(true)}
+                className="text-primary hover:underline"
+              >
+                Forgot Password?
+              </button>
+              <div className="text-muted-foreground">
                 Don't have an account?{' '}
                 <Link to="/register" className="text-primary hover:underline">
                   Register here
                 </Link>
-              </p>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -182,7 +191,25 @@ export default function Login() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Support Contact Link */}
+        <Card className="text-center">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <HelpCircle className="h-4 w-4" />
+              <span className="text-sm">Need help?</span>
+              <Link to="/support" className="text-primary hover:underline text-sm">
+                Contact Support
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      <ForgotPassword 
+        isOpen={isForgotPasswordOpen} 
+        onClose={() => setIsForgotPasswordOpen(false)} 
+      />
     </div>
   );
 }

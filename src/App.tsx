@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./pages/Register";
+import SupportContact from "./pages/SupportContact";
+import Analytics from "./pages/Analytics";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -38,6 +40,7 @@ const App = () => (
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/support" element={<SupportContact />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           
           {/* Admin Routes */}
@@ -52,6 +55,7 @@ const App = () => (
             <Route path="agents" element={<AgentManagement />} />
             <Route path="customers" element={<CustomerManagement />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="analytics" element={<Analytics />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
           
@@ -77,6 +81,7 @@ const App = () => (
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="track" element={<UserDashboard />} />
             <Route path="packages" element={<UserPackages />} />
+            <Route path="support" element={<SupportContact />} />
             <Route path="settings" element={<UserSettings />} />
           </Route>
           

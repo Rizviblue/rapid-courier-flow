@@ -40,6 +40,7 @@ const sidebarItems = {
     { icon: LayoutDashboard, label: 'Dashboard', path: '/user/dashboard' },
     { icon: Search, label: 'Track Package', path: '/user/track' },
     { icon: List, label: 'My Packages', path: '/user/packages' },
+    { icon: UserCheck, label: 'Support', path: '/user/support' },
     { icon: Settings, label: 'Settings', path: '/user/settings' }
   ]
 };

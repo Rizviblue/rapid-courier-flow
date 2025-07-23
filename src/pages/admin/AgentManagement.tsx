@@ -7,8 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Plus, Edit, Trash2, User, Mail, Phone, MapPin } from 'lucide-react';
+import { Search, Plus, Edit, Trash2, User, Mail, Phone, MapPin, Eye } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import EditAgentDialog from '@/components/EditAgentDialog';
+import ViewAgentDialog from '@/components/ViewAgentDialog';
 
 interface Agent {
   id: string;
@@ -69,6 +71,8 @@ export default function AgentManagement() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [editingAgent, setEditingAgent] = useState<Agent | null>(null);
+  const [viewingAgent, setViewingAgent] = useState<Agent | null>(null);
   const [newAgent, setNewAgent] = useState({
     name: '',
     email: '',
@@ -123,6 +127,21 @@ export default function AgentManagement() {
         description: `${name} has been removed from the system.`,
       });
     }
+  };
+
+  const handleEditAgent = (agent: Agent) => {
+    setEditingAgent(agent);
+  };
+
+  const handleSaveEdit = (updatedAgent: Agent) => {
+    setAgents(agents.map(agent => 
+      agent.id === updatedAgent.id ? updatedAgent : agent
+    ));
+    setEditingAgent(null);
+  };
+
+  const handleViewAgent = (agent: Agent) => {
+    setViewingAgent(agent);
   };
 
   const toggleAgentStatus = (id: string) => {
@@ -369,12 +388,16 @@ export default function AgentManagement() {
                         <Button 
                           size="sm" 
                           variant="outline"
-                          onClick={() => {
-                            toast({
-                              title: "Edit Agent",
-                              description: `Opening edit form for ${agent.name}`,
-                            });
-                          }}
+                          onClick={() => handleViewAgent(agent)}
+                          title="View Details"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleEditAgent(agent)}
+                          title="Edit Agent"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -382,6 +405,7 @@ export default function AgentManagement() {
                           size="sm" 
                           variant="outline"
                           onClick={() => toggleAgentStatus(agent.id)}
+                          title={agent.status === 'active' ? 'Deactivate' : 'Activate'}
                         >
                           {agent.status === 'active' ? 'Deactivate' : 'Activate'}
                         </Button>
@@ -390,6 +414,7 @@ export default function AgentManagement() {
                           variant="outline"
                           onClick={() => handleDeleteAgent(agent.id, agent.name)}
                           className="text-red-600 hover:text-red-700"
+                          title="Delete Agent"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -402,6 +427,19 @@ export default function AgentManagement() {
           </div>
         </CardContent>
       </Card>
+
+      <EditAgentDialog
+        agent={editingAgent}
+        isOpen={!!editingAgent}
+        onClose={() => setEditingAgent(null)}
+        onSave={handleSaveEdit}
+      />
+
+      <ViewAgentDialog
+        agent={viewingAgent}
+        isOpen={!!viewingAgent}
+        onClose={() => setViewingAgent(null)}
+      />
     </div>
   );
 }

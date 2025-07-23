@@ -29,13 +29,17 @@ export default function AdminDashboard() {
           <p className="text-muted-foreground">Monitor and manage your courier operations</p>
         </div>
         <div className="flex gap-3">
-          <Button className="bg-primary hover:bg-primary-dark">
-            <BarChart3 className="h-4 w-4 mr-2" />
-            Analytics
+          <Button className="bg-primary hover:bg-primary-dark" asChild>
+            <Link to="/admin/analytics">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Analytics
+            </Link>
           </Button>
-          <Button className="bg-primary hover:bg-primary-dark">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Courier
+          <Button className="bg-primary hover:bg-primary-dark" asChild>
+            <Link to="/admin/add-courier">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Courier
+            </Link>
           </Button>
         </div>
       </div>
